@@ -36,6 +36,18 @@ queue_t *q_new()
 void q_free(queue_t *q)
 {
     /* How about freeing the list elements and the strings? */
+    if(q == NULL)
+        return;
+
+    // we lost next link once we free element, so we need to save it.
+    list_ele_t *buf = NULL;
+    list_ele_t *el = q->head;
+    while(el != NULL) {
+        buf = el;
+        el = el->next;
+        free(buf->value);
+        free(buf);
+    }
     /* Free queue structure */
     free(q);
 }
